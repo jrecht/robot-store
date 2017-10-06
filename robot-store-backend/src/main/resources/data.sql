@@ -1,0 +1,4 @@
+INSERT INTO ROBOT(name) VALUES ('Ultron');
+INSERT INTO ROBOT(name) VALUES ('Nono');
+INSERT INTO ROBOT(name) VALUES ('Goldorak');
+INSERT INTO ROBOT(name) VALUES ('Mazinger');

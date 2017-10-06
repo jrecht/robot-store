@@ -1,0 +1,8 @@
+<h2>New robot to add to store</h2>
+<div>
+  <label>name: </label>
+  <input #robotName />
+  <button (click)="add(robotName.value); robotName.value=''">
+    Add
+  </button>
+</div>
