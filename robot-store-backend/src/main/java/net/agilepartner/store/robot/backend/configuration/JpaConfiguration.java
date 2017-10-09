@@ -24,6 +24,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+/**
+ * Configuration class providing the beans to access the database.
+ */
 @Configuration
 @EnableJpaRepositories(basePackages = "net.agilepartner.store.robot.backend.repository")
 @EnableTransactionManagement
@@ -35,20 +38,24 @@ public class JpaConfiguration {
     @Value("${datasource.sampleapp.maxPoolSize:10}")
     private int maxPoolSize;
 
-    /*
+    /**
      * Populate SpringBoot DataSourceProperties object directly from application.yml
      * based on prefix.Thanks to .yml, Hierachical data is mapped out of the box with matching-name
      * properties of DataSourceProperties object].
+     *
+     * @return a {@link DataSourceProperties}
      */
     @Bean
     @Primary
     @ConfigurationProperties(prefix = "datasource.sampleapp")
-    public DataSourceProperties dataSourceProperties(){
+    public DataSourceProperties dataSourceProperties() {
         return new DataSourceProperties();
     }
 
-    /*
+    /**
      * Configure HikariCP pooled DataSource.
+     *
+     * @return a {@link DataSource}
      */
     @Bean
     public DataSource dataSource() {
@@ -65,20 +72,22 @@ public class JpaConfiguration {
         return dataSource;
     }
 
-    /*
+    /**
      * Entity Manager Factory setup.
+     *
+     * @return a {@link LocalContainerEntityManagerFactoryBean}
      */
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws NamingException {
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(dataSource());
-        factoryBean.setPackagesToScan(new String[] { "net.agilepartner.store.robot.backend.model" });
+        factoryBean.setPackagesToScan(new String[]{"net.agilepartner.store.robot.backend.model"});
         factoryBean.setJpaVendorAdapter(jpaVendorAdapter());
         factoryBean.setJpaProperties(jpaProperties());
         return factoryBean;
     }
 
-    /*
+    /**
      * Provider specific adapter.
      */
     @Bean
@@ -87,8 +96,10 @@ public class JpaConfiguration {
         return hibernateJpaVendorAdapter;
     }
 
-    /*
-     * Here you can specify any provider specific properties.
+    /**
+     * Provide the JPA entity manager configuration
+     *
+     * @return a {@link Properties}
      */
     private Properties jpaProperties() {
         Properties properties = new Properties();
@@ -96,12 +107,18 @@ public class JpaConfiguration {
         properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("datasource.sampleapp.hibernate.hbm2ddl.method"));
         properties.put("hibernate.show_sql", environment.getRequiredProperty("datasource.sampleapp.hibernate.show_sql"));
         properties.put("hibernate.format_sql", environment.getRequiredProperty("datasource.sampleapp.hibernate.format_sql"));
-        if(StringUtils.isNotEmpty(environment.getRequiredProperty("datasource.sampleapp.defaultSchema"))){
+        if (StringUtils.isNotEmpty(environment.getRequiredProperty("datasource.sampleapp.defaultSchema"))) {
             properties.put("hibernate.default_schema", environment.getRequiredProperty("datasource.sampleapp.defaultSchema"));
         }
         return properties;
     }
 
+    /**
+     * Provide the transaction manager.
+     *
+     * @param emf the entity manager
+     * @return a {@link PlatformTransactionManager}
+     */
     @Bean
     @Autowired
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {

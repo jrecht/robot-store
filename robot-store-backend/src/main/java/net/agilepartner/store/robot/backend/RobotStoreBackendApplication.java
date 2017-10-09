@@ -5,11 +5,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
+/**
+ * Robot store back-end main class.
+ */
 @Import(JpaConfiguration.class)
 @SpringBootApplication
 public class RobotStoreBackendApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(RobotStoreBackendApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(RobotStoreBackendApplication.class, args);
+    }
+
 }

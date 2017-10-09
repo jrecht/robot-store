@@ -3,22 +3,45 @@ package net.agilepartner.store.robot.backend.model;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * Robot entity.
+ */
 @Entity
 @Table(name = "ROBOT")
 public class Robot implements Serializable {
 
+    /**
+     * Getter for the id.
+     *
+     * @return a Long
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Setter for the id.
+     *
+     * @param id the id to set
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Getter for the name.
+     *
+     * @return a String
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Setter for the name.
+     *
+     * @param name the name to set
+     */
     public void setName(String name) {
         this.name = name;
     }
