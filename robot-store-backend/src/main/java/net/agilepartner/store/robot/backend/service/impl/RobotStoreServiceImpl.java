@@ -1,6 +1,7 @@
 package net.agilepartner.store.robot.backend.service.impl;
 
 
+import net.agilepartner.store.robot.backend.Exception.IdNotFoundException;
 import net.agilepartner.store.robot.backend.Exception.InvalidRobot;
 import net.agilepartner.store.robot.backend.model.Robot;
 import net.agilepartner.store.robot.backend.repository.IStoreDao;
@@ -46,12 +47,14 @@ public class RobotStoreServiceImpl implements IRobotStoreService {
      * @see IRobotStoreService#deleteRobot(Long)
      */
     @Override
-    public void deleteRobot(Long id) {
+    public void deleteRobot(Long id) throws IdNotFoundException {
+        if(!repository.exists(id)) {
+            throw new IdNotFoundException("Robot id not found");
+        }
         repository.delete(id);
     }
 
     /**
-     * @return
      * @see IRobotStoreService#findRobot(Long)
      */
     @Override
@@ -75,9 +78,12 @@ public class RobotStoreServiceImpl implements IRobotStoreService {
      * @see IRobotStoreService#updateRobot(long, Robot)
      */
     @Override
-    public Robot updateRobot(long robotId, Robot robot) {
-        Robot originalRobot = repository.findOne(robotId);
-        originalRobot.setName(robot.getName());
-        return originalRobot;
+    public void updateRobot(long robotId, Robot robot) throws IdNotFoundException {
+        if (repository.exists(robotId)) {
+            Robot originalRobot = repository.findOne(robotId);
+            originalRobot.setName(robot.getName());
+        } else {
+            throw new IdNotFoundException("Could not find robot to update");
+        }
     }
 }

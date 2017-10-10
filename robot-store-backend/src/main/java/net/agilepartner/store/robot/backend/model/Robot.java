@@ -10,6 +10,16 @@ import java.io.Serializable;
 @Table(name = "ROBOT")
 public class Robot implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = " price", nullable = false)
+    private Integer price;
+
     /**
      * Getter for the id.
      *
@@ -46,13 +56,23 @@ public class Robot implements Serializable {
         this.name = name;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    /**
+     * Getter of the price.
+     *
+     * @return an int
+     */
+    public Integer getPrice() {
+        return price;
+    }
 
-    @Column(name = "name", nullable = false)
-    private String name;
-
+    /**
+     * Setter for the price.
+     *
+     * @param price the price to set
+     */
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -62,13 +82,15 @@ public class Robot implements Serializable {
         Robot robot = (Robot) o;
 
         if (!id.equals(robot.id)) return false;
-        return name.equals(robot.name);
+        if (!name.equals(robot.name)) return false;
+        return price.equals(robot.price);
     }
 
     @Override
     public int hashCode() {
         int result = id.hashCode();
         result = 31 * result + name.hashCode();
+        result = 31 * result + price.hashCode();
         return result;
     }
 }

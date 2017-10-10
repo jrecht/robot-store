@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RobotService} from '../robot.service';
 import {Robot} from '../robot';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-robot-list',
@@ -10,14 +11,19 @@ import {Robot} from '../robot';
 
 export class RobotListComponent implements OnInit {
 
-  robots: Robot[];
+  robots: Robot[] = [];
 
-  constructor(private robotService: RobotService) { }
+  constructor(private robotService: RobotService,
+              private router: Router) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.robotService.list()
-      .then(robots => this.robots = robots.slice(1, 5))
-      .catch(err => console.log(err));
+      .then(robots => this.robots = robots);
+  }
+
+  sell(robot: Robot): void {
+    this.robotService.delete(robot.id)
+      .then(() => this.router.navigate(['/list']));
   }
 
 }

@@ -18,15 +18,15 @@ export class RobotService {
     return this.http
       .get(url)
       .toPromise()
-      .then(res => res.json().data as Robot)
+      .then(response => response.json() as Robot)
       .catch(this.handleError);
   }
 
-  create(name: string): Promise<Robot> {
+  create(name: string, price: number): Promise<Robot> {
     return this.http
-      .post(this.robotApiUrl, JSON.stringify({name: name}), {headers: this.headers})
+      .post(this.robotApiUrl, JSON.stringify({name: name, price: price}), {headers: this.headers})
       .toPromise()
-      .then(res => res.json().data as Robot)
+      .then(res => res.json() as Robot)
       .catch(this.handleError);
   }
 
@@ -51,7 +51,7 @@ export class RobotService {
     const url = `${this.robotApiUrl}/list`;
     return this.http.get(url, {headers: this.headers})
       .toPromise()
-      .then(res => res.json().data as Robot[])
+      .then(response => response.json() as Robot[])
       .catch(this.handleError);
   }
 

@@ -19,12 +19,12 @@ export class RobotCreationComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
-  add(name: string): void {
+  add(name: string, price: number): void {
     name = name.trim();
     if (!name) { return; }
-    this.robotService.create(name)
+    this.robotService.create(name, price)
       .then(() =>
         this.router.navigate(['/list'])
       );

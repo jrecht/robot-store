@@ -1,5 +1,6 @@
 package net.agilepartner.store.robot.backend.service;
 
+import net.agilepartner.store.robot.backend.Exception.IdNotFoundException;
 import net.agilepartner.store.robot.backend.Exception.InvalidRobot;
 import net.agilepartner.store.robot.backend.model.Robot;
 
@@ -24,15 +25,17 @@ public interface IRobotStoreService {
      *
      * @param robotId {@link Robot} id to be updated
      * @param robot   new data of a {@link Robot} to be stored
+     * @throws IdNotFoundException if robotId could not be found
      */
-    Robot updateRobot(long robotId, Robot robot);
+    void updateRobot(long robotId, Robot robot) throws IdNotFoundException;
 
     /**
      * Delete a {@link Robot} from the DB.
      *
      * @param id the id of the {@link Robot} to remove from DB
+     * @throws IdNotFoundException if id could not be found in DB
      */
-    void deleteRobot(Long id);
+    void deleteRobot(Long id) throws IdNotFoundException;
 
     /**
      * Return the {@link Robot} matching the id parameter.

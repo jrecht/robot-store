@@ -1,5 +1,6 @@
 package net.agilepartner.store.robot.backend.service;
 
+import net.agilepartner.store.robot.backend.Exception.IdNotFoundException;
 import net.agilepartner.store.robot.backend.Exception.InvalidRobot;
 import net.agilepartner.store.robot.backend.model.Robot;
 import net.agilepartner.store.robot.backend.repository.IStoreDao;
@@ -63,14 +64,16 @@ public class RobotStoreServiceTest {
         assertThat(savedRobot.getId(), is(notNullValue()));
     }
 
-    @Test
-    public void deleteRobotTest() {
-
+    @Test(expected = IdNotFoundException.class)
+    public void deleteRobotTest() throws IdNotFoundException {
+        when(dao.exists(anyLong())).thenReturn(false);
+        service.deleteRobot(500L);
     }
 
-    @Test
-    public void updateRobotTest() {
-
+    @Test(expected = IdNotFoundException.class)
+    public void updateRobot_IdNotFound_ThrowException() throws IdNotFoundException {
+        when(dao.exists(anyLong())).thenReturn(false);
+        service.updateRobot(35L, savedRobot);
     }
 
     @Test
@@ -81,8 +84,8 @@ public class RobotStoreServiceTest {
 
     @Test
     public void findRobot_IdFound_ReturnRobot() {
-        when(dao.findOne(anyLong())).thenReturn(unsavedRobot);
-        assertThat(service.findRobot(1L), is(equalTo(unsavedRobot)));
+        when(dao.findOne(anyLong())).thenReturn(savedRobot);
+        assertThat(service.findRobot(1L), is(equalTo(savedRobot)));
     }
 
     @Test

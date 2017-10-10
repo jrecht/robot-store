@@ -2,7 +2,10 @@
 <div>
   <label>name: </label>
   <input #robotName />
-  <button (click)="add(robotName.value); robotName.value=''">
+  <br />
+  <label>price: </label>
+  <input #robotPrice />
+  <button (click)="add(robotName.value, robotPrice.value); robotName.value=''">
     Add
   </button>
 </div>
