@@ -1,6 +1,6 @@
 <h2>Click on robot to buy it :</h2>
 <div class="grid grid-pad">
-  <a *ngFor="let robot of robots" (click)="sell(robot)"  [routerLink]="['/sell',robot.id]" class="col-1-4">
+  <a *ngFor="let robot of robots" (click)="sell(robot)" [routerLink]="['/list']" class="col-1-4">
     <div class="module hero">
       <h4>{{robot.name}} : {{robot.price}}€</h4>
     </div>
